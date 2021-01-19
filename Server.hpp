@@ -1,5 +1,5 @@
-bool efxFade;
-bool efxRainbow;
+#include <RGBEffects.h>
+bool efxON;
 
 AsyncWebServer server(80);
 
@@ -11,11 +11,14 @@ uint16_t redVal;
 uint16_t greenVal;
 uint16_t blueVal;
 
+// RGB EFFECTS
+RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void handleFormLed(AsyncWebServerRequest *request)
 {
 	String rgb = request->arg("rgb");
- 
+
+  efxON = false;
   Serial.println(rgb);
   
 	uint8_t red = 0;
@@ -48,15 +51,23 @@ void handleFormEffect(AsyncWebServerRequest *request)
 
   if(efx == "fade")   
   { 
-    Serial.println("1"); efxFade = true; efxRainbow = false;
+    Serial.println("1"); 
+    efxON = true;
+    rgbEffects.setEffect(EFFECT_CUBE);
   }
   if(efx == "rainbow")
   { 
-    Serial.println("2"); efxRainbow = true; efxFade = false;
+    Serial.println("2"); 
+    efxON = true;
+    rgbEffects.setEffect(EFFECT_RAINBOW);
   }
   if(efx == "off")    
   { 
-    Serial.println("3"); efxFade = false; efxRainbow = false;
+    Serial.println("3"); 
+    efxON = false;
+    digitalWrite(redPin,LOW);
+    digitalWrite(greenPin,LOW);
+    digitalWrite(bluePin,LOW);
   }
   
   request->redirect("/");

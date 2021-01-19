@@ -7,8 +7,6 @@
 #include "Server.hpp"
 #include "ESP8266_Utils.hpp"
 
-
-
 void setup(void)
 {
 	Serial.begin(115200);
@@ -23,16 +21,20 @@ void setup(void)
   digitalWrite(bluePin,HIGH);
 	
 	ConnectWiFi_STA();
-
 	InitServer();
 
   digitalWrite(redPin,LOW);
   digitalWrite(greenPin,LOW);
   digitalWrite(bluePin,LOW);
-  
+
+  efxON = false;
 }
 
 void loop(void)
 {
-  
+  if(efxON)
+  {
+    rgbEffects.update();
+    delay(200);
+  }
 }
