@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="no-js" lang="">
+   <head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>RGB Lights</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Kleng David" />
+	  
+		<script type="text/javascript" src="jquery-3.5.1.min.js"></script>
+		<script type="text/javascript" src="jquery.wheelcolorpicker.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/wheelcolorpicker.css" />
+		
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>	 -->
+   </head>
+ 
+
+
+<body>
+	
+	<h1>Color selector</h1>
+	
+	<div id="snippet-block" class="snippet">
+	
+		<p>
+			<input
+				id="color-block"
+				type="text"
+				value="#ff8800"
+				data-wheelcolorpicker
+				data-wcp-format="css"
+				data-wcp-layout="block"
+				data-wcp-sliders="wsv"
+				data-wcp-cssClass="color-block"
+				data-wcp-autoResize="false"
+			/>
+		</p>	
+		
+		<p>
+			Selected color:
+			<span class="color-preview-box"></span>
+			<span class="color-preview-text"></span>
+			<!-- <span class="color-preview-alpha"></span> -->
+		</p>
+		
+		<style type="text/css">
+      .color-block {
+        max-width: 340px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .color-preview-box {
+        display: inline-block;
+        width: .75em;
+        height: .75em;
+        vertical-align: middle;
+        padding: 2px;
+        background-clip: content-box;
+        border: solid 1px #888;
+      }
+		</style>
+		
+		<script type="text/javascript">
+		$(function() {
+			$('#color-block').on('colorchange', function(e) {
+				var color = $(this).wheelColorPicker('value');
+				var alpha = $(this).wheelColorPicker('color').a;
+				$('.color-preview-box').css('background-color', color);
+				$('.color-preview-text').text(color);
+				<!-- $('.color-preview-alpha').text(Math.round(alpha * 100) + '%'); -->
+				$.ajax({
+					type: 'POST',
+					url: '/RGB',
+					data: {
+						rgb:color,
+					},
+					dataType: 'json',
+				})
+			});
+			});
+		</script>
+		
+		
+		
+	</div>
+	
+</body>
+</html>
+
+
