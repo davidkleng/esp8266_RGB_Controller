@@ -2,6 +2,7 @@
 bool efxON;
 
 AsyncWebServer server(80);
+DNSServer dns;
 
 const int redPin = D0;
 const int greenPin = D1;
